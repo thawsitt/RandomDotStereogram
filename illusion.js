@@ -76,3 +76,19 @@ function reset() {
     offset = 0;
     draw();
 }
+
+function keyboardMove(e) {
+    switch(e.keyCode) {
+        case 32:
+            reset();
+            break;
+        case 37: /* left arrow */
+            moveLeft();
+            break;
+        case 39: /* right arrow */
+            moveRight();
+            break;
+    }
+}
+
+window.addEventListener("keydown", keyboardMove, false);
