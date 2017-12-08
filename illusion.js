@@ -2,7 +2,12 @@ var globals = {
     offset: 0,
     num_points: 3000,
     x_values: generateRandomLocations(1, canvas.width, 3000),
-    y_values: generateRandomLocations(1, canvas.height, 3000)
+    y_values: generateRandomLocations(1, canvas.height, 3000),
+    shapes: [rect, circle, rect],
+    cur_shape: 0,
+    rect_size: canvas.width/3,
+    smaller_rect_size: canvas.width/3 - 50,
+    circle_radius: canvas.width/5,
 }
 
 function draw() {
@@ -14,15 +19,17 @@ function draw() {
         var height = canvas.height;
         var radius = 1.5;
         
-        var rect_size = 150
-
         for (i = 0; i < globals.num_points; i++) {
             centerX = globals.x_values[i]
             centerY = globals.y_values[i]
 
-            if (withinBounds(centerX, centerY, width, height, rect_size)) {
+            if (globals.shapes[globals.cur_shape](centerX, centerY)) {
                 context.beginPath();
-                context.arc(centerX + globals.offset, centerY, radius, 0, 2 * Math.PI, false);
+                var offset = globals.offset;
+                if (globals.cur_shape == 2 && smallerRect(centerX, centerY)) {
+                    offset = globals.offset + 4 * (globals.offset/Math.abs(globals.offset))
+                }
+                context.arc(centerX + offset, centerY, radius, 0, 2 * Math.PI, false);
                 context.fillStyle = 'red';
                 context.fill();
             } else {
@@ -41,9 +48,30 @@ function draw() {
     }
 }
 
-function withinBounds(x, y, width, height, size) {
+function rect(x, y) {
+    var width = canvas.width;
+    var height = canvas.height;
+    var size = globals.rect_size;
     return centerX < (width/2 + size) && centerX > (width/2 - size)
         && centerY < (height/2 + size) && centerY > (height/2 - size);
+}
+
+function smallerRect(x, y) {
+    var width = canvas.width;
+    var height = canvas.height;
+    var size = globals.smaller_rect_size;
+    return centerX < (width/2 + size) && centerX > (width/2 - size)
+        && centerY < (height/2 + size) && centerY > (height/2 - size);
+}
+
+function circle(x, y) {
+    radius = globals.circle_radius;
+    origin = canvas.width / 2.0;
+    return distance(x, y, origin, origin) <= radius;
+}
+
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt( Math.pow((x1-x2), 2) + Math.pow((y1-y2), 2) );
 }
 
 
@@ -73,6 +101,12 @@ function moveRight() {
 }
 
 function reset() {
+    globals.offset = 0;
+    draw();
+}
+
+function randomShape() {
+    globals.cur_shape = (globals.cur_shape + 1) % globals.shapes.length;
     globals.offset = 0;
     draw();
 }
