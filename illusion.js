@@ -1,9 +1,9 @@
-var offset = 0
-var num_points = 3000
-var x_values = generateRandomLocations(1, canvas.width, num_points);
-var y_values = generateRandomLocations(1, canvas.height, num_points);
-
-
+var globals = {
+    offset: 0,
+    num_points: 3000,
+    x_values: generateRandomLocations(1, canvas.width, 3000),
+    y_values: generateRandomLocations(1, canvas.height, 3000)
+}
 
 function draw() {
     var canvas = document.getElementById('canvas');
@@ -16,13 +16,13 @@ function draw() {
         
         var rect_size = 150
 
-        for (i = 0; i < num_points; i++) {
-            centerX = x_values[i]
-            centerY = y_values[i]
+        for (i = 0; i < globals.num_points; i++) {
+            centerX = globals.x_values[i]
+            centerY = globals.y_values[i]
 
             if (withinBounds(centerX, centerY, width, height, rect_size)) {
                 context.beginPath();
-                context.arc(centerX + offset, centerY, radius, 0, 2 * Math.PI, false);
+                context.arc(centerX + globals.offset, centerY, radius, 0, 2 * Math.PI, false);
                 context.fillStyle = 'red';
                 context.fill();
             } else {
@@ -63,23 +63,23 @@ function getRandomInt(min, max) {
 }
 
 function moveLeft() {
-    offset -= 2;
+    globals.offset -= 2;
     draw();
 }
 
 function moveRight() {
-    offset += 2;
+    globals.offset += 2;
     draw();
 }
 
 function reset() {
-    offset = 0;
+    globals.offset = 0;
     draw();
 }
 
 function keyboardMove(e) {
     switch(e.keyCode) {
-        case 32:
+        case 32: /* space bar */
             reset();
             break;
         case 37: /* left arrow */
