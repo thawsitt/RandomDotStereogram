@@ -26,7 +26,7 @@ function draw() {
             if (globals.shapes[globals.cur_shape](centerX, centerY)) {
                 context.beginPath();
                 var offset = globals.offset;
-                if (globals.cur_shape == 2 && smallerRect(centerX, centerY)) {
+                if (globals.cur_shape == 2 && globals.offset != 0 && smallerRect(centerX, centerY)) {
                     offset = globals.offset + 4 * (globals.offset/Math.abs(globals.offset))
                 }
                 context.arc(centerX + offset, centerY, radius, 0, 2 * Math.PI, false);
