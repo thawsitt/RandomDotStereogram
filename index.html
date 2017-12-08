@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="./illusion.css">
         <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"-->
     </head>
-    <body onload="draw();">
+    <body onload="draw(0);">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -20,9 +20,9 @@
 
         <br/>
         <div class="container-fluid text-center" id="buttons">
-            <button class="btn btn-default" type="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-            <button class="btn btn-default" type="button">Button</button>
-            <button class="btn btn-default" type="button">Button</button>
+            <button class="btn btn-default" type="button" onclick="moveLeft();"><i class="fa fa-arrow-left" aria-hidden="true"></i> Move Left</button>
+            <button class="btn btn-default" type="button" onclick="reset();">Reset</button>
+            <button class="btn btn-default" type="button" onclick="moveRight();">Move Right <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
         </div>
     <script src="illusion.js"></script>
     </body>
